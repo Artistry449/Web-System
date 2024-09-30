@@ -16,14 +16,17 @@ export default function CountryList({ countries, selectedPagination }) {
           </>
         ))} */}
 
-      {countries &&
+      {countries.length > 0 ? (
         countries.slice(startIndex, endIndex).map((country) => (
           <>
             <Link key={country.cca2} to={`/countries/detail/${country.cca2}`}>
               <Country country={country} />
             </Link>
           </>
-        ))}
+        ))
+      ) : (
+        <center>Илэрц олдсонгүй</center>
+      )}
     </div>
   );
 }
