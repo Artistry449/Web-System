@@ -17,6 +17,6 @@ F.ITM301 Веб систем ба технологи | 2024/2025A
 
 ### Deployment
 
-http://web-system.vercel.app
+[https://web-system-five.vercel.app](https://web-system-five.vercel.app)
 
 Уг файлд лабораторийн ажлуудыг нэгтгэн "pages" хавтас дотор тус тусад нь "App" гэсэн төгсгөлтэйгөөр хадгалсан болно.
