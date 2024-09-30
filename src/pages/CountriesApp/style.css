@@ -1,0 +1,178 @@
+.countries_container {
+  max-width: 80vw;
+  min-height: 70vh;
+  margin: auto;
+  /* border: 1px solid black; */
+}
+
+.container-Top {
+  /* border: 1px solid red; */
+  display: flex;
+  justify-content: space-between;
+}
+
+.container-Top input {
+  padding: 0.5rem;
+  border: 0.5px solid grey;
+  border-radius: 5px;
+  width: 20%;
+}
+
+.container-Content {
+  /* border: 1px solid blue; */
+  margin: auto;
+}
+
+.country {
+  border: 0.5px solid grey;
+  display: flex;
+  margin-bottom: 1rem;
+  align-content: space-between;
+  padding: 1rem;
+}
+
+/* <util> */
+
+h4 {
+  font-size: medium;
+}
+
+.content_attributes {
+  width: 80%;
+  padding: 1.5rem;
+}
+
+.arrow {
+  width: 30px;
+  height: 30px;
+}
+
+.container_navbar {
+  margin: auto;
+  width: 80%;
+}
+
+.country_img {
+  width: 200px;
+  height: 150px;
+  /* border: 1px solid purple; */
+}
+
+.icon_img {
+  width: 30px;
+  height: 30px;
+}
+
+/* </util> */
+
+.arrow_right {
+  /* border: 1px solid yellow; */
+  margin-left: auto;
+}
+
+.country_attributes_container {
+  display: flex;
+  /* border: 1px solid red; */
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.country_attributes {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  line-height: 3rem;
+  /* border: 1px solid green; */
+}
+
+@media only screen and (max-width: 940px) {
+  .country {
+    display: block;
+  }
+  .country_attributes_container {
+    display: block;
+  }
+  .arrow_right {
+    margin-left: 100%;
+  }
+}
+
+/* Pagination Boxes */
+
+.pagination-boxes {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  width: 80%;
+  margin: auto;
+}
+
+.pagination-box {
+  background-color: aliceblue;
+  padding: 1.5rem;
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 1rem;
+  cursor: pointer;
+}
+
+.pagination-box p {
+  width: 0.5rem;
+  margin: 0;
+}
+
+/* SelectedCountry.js */
+
+.Btn_selected_country_location {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.selected_country {
+  width: 100%;
+  height: 100%;
+  margin: auto;
+}
+
+.selected_country_information_container {
+  display: flex;
+  flex-direction: row;
+  gap: 3rem;
+}
+
+.selected_country_navbar {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+
+.selected_country_content {
+  margin: auto;
+  width: 80%;
+}
+
+.selected_country_information_left {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.selected_country_information_right {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.selected_country_information {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.selected_country_information a {
+  text-decoration: none;
+  color: black;
+}

@@ -1,0 +1,11 @@
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  text-decoration: none;
+  color: black;
+}
+
+.lab_title {
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
