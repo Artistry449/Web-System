@@ -6,7 +6,7 @@
 
 .authenticationBox {
   /* border: 0.5px solid #d9d9d9; */
-  height: 40rem;
+  height: 30rem;
   border-radius: 20px;
 }
 
@@ -47,6 +47,10 @@ button {
   border: 1px solid #d9d9d9;
 }
 
+.btnSignup {
+  margin-left: 18%;
+}
+
 /* Login */
 .login {
   flex: 1;
@@ -59,4 +63,245 @@ button {
 button:hover {
   cursor: pointer;
   background-color: #b4afaf;
+}
+
+/* Index */
+
+.index {
+  margin: 2% 10%;
+}
+
+.indexTitles {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btnLoginSignup {
+  border: 1px solid black;
+  padding: 0.6rem;
+  border-radius: 10px;
+  background-color: #505765;
+  color: #fff;
+}
+
+.btnLoginSignup:hover {
+  background-color: #2f3645;
+}
+
+/* User */
+
+.usersContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 1.5rem;
+}
+
+.usersContainer > img {
+}
+
+.user {
+  padding: 0.8rem;
+  background-color: #dfdddd;
+  height: 4rem;
+  border-radius: 10px;
+  display: flex;
+  cursor: pointer;
+}
+
+.user:hover {
+  background-color: #b4afaf;
+}
+
+.userAttributesContainer {
+  padding: 0.5rem;
+}
+
+.userProfile {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.userPlaces {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.placeCard {
+  display: flex;
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+  gap: 20px;
+}
+
+.placeCard:hover {
+  transform: translateY(-5px);
+}
+
+.placeTitle {
+  font-size: 24px;
+  color: #333333;
+  margin-bottom: 10px;
+}
+
+.placeDescription {
+  color: #666666;
+  margin-bottom: 15px;
+}
+
+.placeHayg,
+.placeLocation {
+  margin-bottom: 8px;
+  color: #444444;
+}
+
+.placeImage {
+  width: 200px;
+  height: 150px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.noPlacesMessage {
+  font-size: 18px;
+  color: #777777;
+  text-align: center;
+}
+
+.addPlaceButton {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  margin-bottom: 20px;
+  font-weight: bold;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
+
+.addPlaceButton:hover {
+  background-color: #45a049;
+}
+
+/* .placeActions {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin-top: 10px;
+} */
+
+.editButton,
+.deleteButton {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.editButton {
+  background-color: #4caf50;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.editButton:hover {
+  background-color: #45a049;
+}
+
+.deleteButton {
+  background-color: #f44336;
+  color: black;
+  transition: background-color 0.3s ease;
+}
+
+.deleteButton:hover {
+  background-color: #e53935;
+}
+
+/* Add place */
+
+.addNewPlace {
+  background-color: #d9d9d9;
+  border-radius: 10px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+  margin-left: 36%;
+  margin-top: 10%;
+  gap: 10px;
+}
+
+.addNewPlace > div {
+  display: flex;
+  gap: 10px;
+}
+
+.addNewPlace > div > button {
+  margin-left: 25%;
+}
+
+/* Edit Place */
+
+.editPlace {
+  width: 400px;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.editPlace h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}
+
+.editPlace input {
+  width: 80%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.editPlace .button {
+  width: 100%;
+  padding: 12px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.editPlace button:hover {
+  background-color: #45a049;
+}
+
+@media (max-width: 768px) {
+  .editPlace {
+    padding: 10px;
+  }
+
+  .editPlace input {
+    font-size: 14px;
+  }
+
+  .editPlace button {
+    font-size: 14px;
+  }
 }

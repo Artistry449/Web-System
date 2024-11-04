@@ -1,10 +1,13 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import LoggedInUserContext from "../../Context/LoggedInUser";
+import UserList from "./UserList";
 
 export default function PlacesApp() {
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const { loggedInUser, logoutUser } = useContext(LoggedInUserContext);
+
+  const navigator = useNavigate();
 
   useEffect(() => {
     const fetchedUsers = localStorage.getItem("users");
@@ -12,19 +15,34 @@ export default function PlacesApp() {
     console.log(fetchedUsers);
     console.log(parsedFetchedUsers);
     if (parsedFetchedUsers && parsedFetchedUsers.length > 0) {
-      console.log("AAAA");
-      setUsers(fetchedUsers);
+      setUsers(parsedFetchedUsers);
     }
   }, []);
 
   return (
     <div className="index">
-      <Link to={"/placesapp/authenticate"}>Нэвтрэх/Бүртгүүлэх</Link>
+      {loggedInUser && (
+        <div style={{ marginLeft: "95%" }} onClick={logoutUser}>
+          Гарах
+        </div>
+      )}
+
+      <div className="indexTitles">
+        <h2>Системийн хэрэглэгчид</h2>
+
+        {loggedInUser ? (
+          <h4>
+            Сайн байна уу 👋 {loggedInUser.firstName} {loggedInUser.lastName}
+          </h4>
+        ) : (
+          <Link to="/placesapp/authenticate" className="btnLoginSignup">
+            Нэвтрэх/Бүртгүүлэх
+          </Link>
+        )}
+      </div>
       {users && users.length > 0 ? (
-        <div>
-          {users.map((user) => (
-            <div key={user.email}>{user.firstName}</div>
-          ))}
+        <div className="usersContainer">
+          <UserList users={users} navigator={navigator} />
         </div>
       ) : (
         <div>Одоогоор системд бүртгэлтэй ямар ч хэрэглэгч байхгүй байна</div>
