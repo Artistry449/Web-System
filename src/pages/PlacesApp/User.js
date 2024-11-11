@@ -12,7 +12,7 @@ export default function User() {
     const getUserPlace = async () => {
       const places = await fetch("http://localhost:80/api/places/user" + uid);
       const parsedPlaces = await places.json();
-      if (parsedPlaces) {
+      if (parsedPlaces && parsedPlaces.length > 0) {
         const foundUserPlaces = parsedPlaces.userPlaces.filter(
           (place) => place.userId === uid
         );

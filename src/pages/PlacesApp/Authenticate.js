@@ -85,7 +85,7 @@ export default function Authenticate() {
     } else {
       alert("Та талбаруудыг бөглөнө үү");
     }
-    // clearFields();
+    clearFields();
   };
 
   const saveToStorage = (loggedInUser) => {
@@ -95,49 +95,49 @@ export default function Authenticate() {
     setIsSuccessfullySignedupAlertOpen(true);
   };
 
-  // const handleLoginUser = async () => {
-  //   if (loginEmail.length > 0 && loginPassword.length > 0) {
-  //     if (loginEmail.split("@").pop() !== "gmail.com") {
-  //       alert("Та зөв и-мэйл оруулна уу");
-  //       clearFields();
-  //     } else {
-  //       const loginData = {
-  //         email: loginEmail,
-  //         password: loginPassword,
-  //       };
+  const handleLoginUser = async () => {
+    if (loginEmail.length > 0 && loginPassword.length > 0) {
+      if (loginEmail.split("@").pop() !== "gmail.com") {
+        alert("Та зөв и-мэйл оруулна уу");
+        clearFields();
+      } else {
+        const loginData = {
+          email: loginEmail,
+          password: loginPassword,
+        };
 
-  //       const loginTriedUser = await fetch(
-  //         `http://localhost:80/api/users/login`,
-  //         {
-  //           method: "POST",
-  //           body: JSON.stringify(loginData),
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //           },
-  //         }
-  //       );
+        const loginTriedUser = await fetch(
+          `http://localhost:80/api/users/login`,
+          {
+            method: "POST",
+            body: JSON.stringify(loginData),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-  //       const parsedLoginTriedUser = await loginTriedUser.json();
+        const parsedLoginTriedUser = await loginTriedUser.json();
 
-  //       console.log(parsedLoginTriedUser);
+        console.log(parsedLoginTriedUser);
 
-  //       if (parsedLoginTriedUser.status === "success") {
-  //         // updateLoggedInUser(parsedLoginTriedUser.user);
-  //         // localStorage.setItem(
-  //         //   "loggedInUser",
-  //         //   JSON.stringify(parsedLoginTriedUser.user)
-  //         // );
-  //         setIsSuccessfullySignedupAlertOpen(false);
-  //         setIsSuccessfullyLoggedInAlertOpen(true);
+        if (parsedLoginTriedUser.status === "success") {
+          // updateLoggedInUser(parsedLoginTriedUser.user);
+          // localStorage.setItem(
+          //   "loggedInUser",
+          //   JSON.stringify(parsedLoginTriedUser.user)
+          // );
+          setIsSuccessfullySignedupAlertOpen(false);
+          setIsSuccessfullyLoggedInAlertOpen(true);
 
-  //         navigate("/placesapp");
-  //       } else {
-  //         alert(parsedLoginTriedUser.message);
-  //         // clearFields();
-  //       }
-  //     }
-  //   }
-  // };
+          navigate("/placesapp");
+        } else {
+          alert(parsedLoginTriedUser.message);
+          clearFields();
+        }
+      }
+    }
+  };
 
   return (
     <>
@@ -231,7 +231,7 @@ export default function Authenticate() {
                 }}
               />
             </div>
-            {/* <button onClick={handleLoginUser}>Нэвтрэх</button> */}
+            <button onClick={handleLoginUser}>Нэвтрэх</button>
           </div>
         </div>
       </div>
