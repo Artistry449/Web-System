@@ -33,41 +33,41 @@ export default function App() {
   };
 
   return (
-    <LoggedInUserContext.Provider
-      value={{ loggedInUser, updateLoggedInUser, logoutUser }}
-    >
-      <BrowserRouter>
-        <nav className="navbar">
-          <h1>ITM301 Лабораторын ажлууд</h1>
-          <ul>
-            <li>
-              <Link to="/">Үндсэн</Link>
-            </li>
-            <li>
-              <Link to="/fruitshop">FruitShop</Link>
-            </li>
-            <li>
-              <Link to="/countries">Countries</Link>
-            </li>
-            <li>
-              <Link to="/placesapp">PlacesApp</Link>
-            </li>
-          </ul>
-        </nav>
-        <Routes>
-          <Route path="/" element={<div>Үндсэн дэлгэц</div>} />
-          <Route path="/fruitshop" element={<FruitShop />} />
+    // <LoggedInUserContext.Provider
+    //   value={{ loggedInUser, updateLoggedInUser, logoutUser }}
+    // >
+    <BrowserRouter>
+      <nav className="navbar">
+        <h1>ITM301 Лабораторын ажлууд</h1>
+        <ul>
+          <li>
+            <Link to="/">Үндсэн</Link>
+          </li>
+          <li>
+            <Link to="/fruitshop">FruitShop</Link>
+          </li>
+          <li>
+            <Link to="/countries">Countries</Link>
+          </li>
+          <li>
+            <Link to="/placesapp">PlacesApp</Link>
+          </li>
+        </ul>
+      </nav>
+      <Routes>
+        <Route path="/" element={<div>Үндсэн дэлгэц</div>} />
+        <Route path="/fruitshop" element={<FruitShop />} />
 
-          <Route path="/countries" element={<Countries />} />
-          <Route path="/countries/detail/:cca2" element={<SelectedCountry />} />
+        <Route path="/countries" element={<Countries />} />
+        <Route path="/countries/detail/:cca2" element={<SelectedCountry />} />
 
-          <Route path="/placesapp" element={<PlacesApp />} />
-          <Route path="/placesapp/authenticate" element={<Authenticate />} />
-          <Route path="/placesapp/:uid/places" element={<User />} />
-          <Route path="/placesapp/places/new" element={<AddPlace />} />
-          <Route path="/placesapp/places/:pid" element={<EditPlace />} />
-        </Routes>
-      </BrowserRouter>
-    </LoggedInUserContext.Provider>
+        <Route path="/placesapp" element={<PlacesApp />} />
+        <Route path="/placesapp/authenticate" element={<Authenticate />} />
+        <Route path="/placesapp/:uid/places" element={<User />} />
+        <Route path="/placesapp/places/new" element={<AddPlace />} />
+        <Route path="/placesapp/places/:pid" element={<EditPlace />} />
+      </Routes>
+    </BrowserRouter>
+    // </LoggedInUserContext.Provider>
   );
 }

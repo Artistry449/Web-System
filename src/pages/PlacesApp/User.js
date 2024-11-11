@@ -9,23 +9,20 @@ export default function User() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const places = localStorage.getItem("places");
-
-    if (places) {
-      const parsedPlaces = JSON.parse(places);
-
-      if (Array.isArray(parsedPlaces)) {
-        const foundUserPlaces = parsedPlaces.filter(
+    const getUserPlace = async () => {
+      const places = await fetch("http://localhost:80/api/places/user" + uid);
+      const parsedPlaces = await places.json();
+      if (parsedPlaces) {
+        const foundUserPlaces = parsedPlaces.userPlaces.filter(
           (place) => place.userId === uid
         );
         setUserPlaces(foundUserPlaces);
       } else {
-        console.error("Parsed places is not an array:", parsedPlaces);
         setUserPlaces([]);
       }
-    } else {
-      setUserPlaces([]);
-    }
+    };
+
+    getUserPlace();
   }, [uid]);
 
   const deletePlace = (placeIndex) => {

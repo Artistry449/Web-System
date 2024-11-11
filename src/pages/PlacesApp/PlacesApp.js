@@ -10,13 +10,18 @@ export default function PlacesApp() {
   const navigator = useNavigate();
 
   useEffect(() => {
-    const fetchedUsers = localStorage.getItem("users");
-    const parsedFetchedUsers = JSON.parse(fetchedUsers);
-    console.log(fetchedUsers);
-    console.log(parsedFetchedUsers);
-    if (parsedFetchedUsers && parsedFetchedUsers.length > 0) {
-      setUsers(parsedFetchedUsers);
-    }
+    const getUsers = async () => {
+      const fetchedUsers = await fetch("http://localhost:80/api/users", {
+        method: "GET",
+      });
+      const parsedFetchedUsers = await fetchedUsers.json();
+      console.log(parsedFetchedUsers);
+      if (parsedFetchedUsers && parsedFetchedUsers.status === "success") {
+        setUsers(parsedFetchedUsers.users);
+      }
+    };
+
+    getUsers();
   }, []);
 
   return (

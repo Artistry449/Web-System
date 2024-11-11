@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import "./style.css";
 import { useNavigate } from "react-router-dom";
 import LoggedInUserContext from "../../Context/LoggedInUser";
-import { v4 as uuidv4 } from "uuid";
 
 export default function Authenticate() {
   const [signupFirstName, setSignupFirstName] = useState("");
@@ -26,12 +25,15 @@ export default function Authenticate() {
   const { updateLoggedInUser } = useContext(LoggedInUserContext);
 
   useEffect(() => {
-    const fetchedUsers = localStorage.getItem("users");
-    const parsedFetchedUsers = JSON.parse(fetchedUsers);
-
-    if (parsedFetchedUsers && parsedFetchedUsers.length > 0) {
-      setUsers(parsedFetchedUsers);
-    }
+    const getUsers = async () => {
+      const fetchedUsers = await fetch(`http://localhost:80/api/users`);
+      const parsedFetchedUsers = await fetchedUsers.json();
+      console.log(parsedFetchedUsers);
+      if (parsedFetchedUsers && parsedFetchedUsers.length > 0) {
+        setUsers(parsedFetchedUsers);
+      }
+    };
+    getUsers();
   }, []);
 
   const clearFields = () => {
@@ -45,77 +47,97 @@ export default function Authenticate() {
     setLoginPassword("");
   };
 
-  const handleSignupUser = () => {
-    if (signupFirstName && signupLastName && signupEmail && signupPassword) {
+  const handleSignupUser = async () => {
+    if (
+      signupFirstName &&
+      signupLastName &&
+      signupEmail &&
+      signupPassword &&
+      signupUrl
+    ) {
       if (signupEmail.split("@").pop() !== "gmail.com") {
         alert("Та зөв и-мэйл оруулна уу");
       } else {
-        const isUserAlreadySignedIn = users.find(
-          (user) => user.email === signupEmail
-        );
+        const newUserData = {
+          firstName: signupFirstName,
+          lastName: signupLastName,
+          email: signupEmail,
+          password: signupPassword,
+          imgUrl: signupUrl,
+        };
 
-        if (isUserAlreadySignedIn) {
-          alert("Уг и-мэйл аль хэдийн бүртгэлтэй байна");
+        const res = await fetch(`http://localhost:80/api/users/signup`, {
+          method: "POST",
+          body: JSON.stringify(newUserData),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const parsedResponse = await res.json();
+        console.log(newUserData);
+        console.log(parsedResponse);
+        if (parsedResponse.status === "success") {
+          saveToStorage(newUserData);
         } else {
-          const newUser = {
-            id: uuidv4(),
-            firstName: signupFirstName,
-            lastName: signupLastName,
-            email: signupEmail,
-            password: signupPassword,
-            img: signupUrl,
-          };
-          const updatedUser = [...users, newUser];
-
-          console.log(newUser);
-          setUsers(updatedUser);
-
-          saveToStorage(updatedUser);
+          alert(parsedResponse.message);
         }
       }
     } else {
       alert("Та талбаруудыг бөглөнө үү");
     }
-    clearFields();
+    // clearFields();
   };
 
-  const saveToStorage = (users) => {
-    const stringifiedNewUserData = JSON.stringify(users);
+  const saveToStorage = (loggedInUser) => {
+    const stringifiedNewUserData = JSON.stringify(loggedInUser);
     console.log(stringifiedNewUserData);
-    localStorage.setItem("users", stringifiedNewUserData);
+    localStorage.setItem("loggedInUser", stringifiedNewUserData);
     setIsSuccessfullySignedupAlertOpen(true);
   };
 
-  const handleLoginUser = () => {
-    if (loginEmail.length > 0 && loginPassword.length > 0) {
-      if (loginEmail.split("@").pop() !== "gmail.com") {
-        alert("Та зөв и-мэйл оруулна уу");
-        clearFields();
-      } else {
-        const loginTriedUser = users.find((user) => {
-          console.log(user);
-          if (user.email === loginEmail) return user;
-          return false;
-        });
-        console.log(loginTriedUser);
-        if (!loginTriedUser) {
-          alert("И-мэйл хаяг эсвэл нууц үг буруу байна");
-          clearFields();
-        } else {
-          if (loginTriedUser.password === loginPassword) {
-            updateLoggedInUser(loginTriedUser);
-            setIsSuccessfullySignedupAlertOpen(false);
-            setIsSuccessfullyLoggedInAlertOpen(true);
+  // const handleLoginUser = async () => {
+  //   if (loginEmail.length > 0 && loginPassword.length > 0) {
+  //     if (loginEmail.split("@").pop() !== "gmail.com") {
+  //       alert("Та зөв и-мэйл оруулна уу");
+  //       clearFields();
+  //     } else {
+  //       const loginData = {
+  //         email: loginEmail,
+  //         password: loginPassword,
+  //       };
 
-            navigate("/placesapp");
-          } else {
-            alert("И-мэйл хаяг эсвэл нууц үг буруу байна");
-            clearFields();
-          }
-        }
-      }
-    }
-  };
+  //       const loginTriedUser = await fetch(
+  //         `http://localhost:80/api/users/login`,
+  //         {
+  //           method: "POST",
+  //           body: JSON.stringify(loginData),
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //         }
+  //       );
+
+  //       const parsedLoginTriedUser = await loginTriedUser.json();
+
+  //       console.log(parsedLoginTriedUser);
+
+  //       if (parsedLoginTriedUser.status === "success") {
+  //         // updateLoggedInUser(parsedLoginTriedUser.user);
+  //         // localStorage.setItem(
+  //         //   "loggedInUser",
+  //         //   JSON.stringify(parsedLoginTriedUser.user)
+  //         // );
+  //         setIsSuccessfullySignedupAlertOpen(false);
+  //         setIsSuccessfullyLoggedInAlertOpen(true);
+
+  //         navigate("/placesapp");
+  //       } else {
+  //         alert(parsedLoginTriedUser.message);
+  //         // clearFields();
+  //       }
+  //     }
+  //   }
+  // };
 
   return (
     <>
@@ -209,7 +231,7 @@ export default function Authenticate() {
                 }}
               />
             </div>
-            <button onClick={handleLoginUser}>Нэвтрэх</button>
+            {/* <button onClick={handleLoginUser}>Нэвтрэх</button> */}
           </div>
         </div>
       </div>
