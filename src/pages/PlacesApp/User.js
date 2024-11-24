@@ -10,41 +10,55 @@ export default function User() {
 
   useEffect(() => {
     const getUserPlace = async () => {
-      const places = await fetch("http://localhost:80/api/places/user" + uid);
+      const places = await fetch("http://localhost:80/api/places/user/" + uid);
       const parsedPlaces = await places.json();
-      if (parsedPlaces && parsedPlaces.length > 0) {
-        const foundUserPlaces = parsedPlaces.userPlaces.filter(
-          (place) => place.userId === uid
-        );
-        setUserPlaces(foundUserPlaces);
-      } else {
-        setUserPlaces([]);
-      }
+      // if (parsedPlaces && parsedPlaces.length > 0) {
+      //   const foundUserPlaces = parsedPlaces.userPlaces.filter(
+      //     (place) => place.userId === uid
+      //   );
+      // } else {
+      //   setUserPlaces([]);
+      // }
+      setUserPlaces(parsedPlaces.userPlaces);
     };
 
     getUserPlace();
   }, [uid]);
 
-  const deletePlace = (placeIndex) => {
-    const places = localStorage.getItem("places");
-    const parsedPlaces = JSON.parse(places);
+  const deletePlace = async (placeIndex) => {
+    // const places = localStorage.getItem("places");
+    // const parsedPlaces = JSON.parse(places);
 
-    const updatedPlaces = parsedPlaces.filter(
-      (_, index) => index !== placeIndex
-    );
+    // const updatedPlaces = parsedPlaces.filter(
+    //   (_, index) => index !== placeIndex
+    // );
 
-    localStorage.setItem("places", JSON.stringify(updatedPlaces));
-    setUserPlaces(updatedPlaces.filter((place) => place.userId === uid));
+    // localStorage.setItem("places", JSON.stringify(updatedPlaces));
+    // setUserPlaces(updatedPlaces.filter((place) => place.userId === uid));
+    console.log(placeIndex);
+    const res = await fetch(`http://localhost:80/api/places/${placeIndex}`, {
+      method: "DELETE",
+    });
+    console.log(res);
+
+    if (res.status === 204) {
+      alert("Газрыг амжилттай устгалаа");
+      setUserPlaces((prev) => prev.filter((place) => place._id !== placeIndex));
+    } else {
+      alert("Газрыг устгахад алдаа гарлаа");
+    }
   };
 
   const editPlace = (index) => {
     navigate(`/placesapp/places/${index}`);
   };
 
+  useEffect(() => console.log(userPlaces), [userPlaces]);
+
   return (
     <div className="userProfile">
       <div className="userPlaces">
-        {loggedInUser && loggedInUser.id === uid && (
+        {loggedInUser && loggedInUser._id === uid && (
           <Link to="/placesapp/places/new" className="addPlaceButton">
             + Газар нэмэх
           </Link>
@@ -53,8 +67,12 @@ export default function User() {
         {userPlaces && userPlaces.length > 0 ? (
           userPlaces.map((place, index) => (
             <div key={index} className="placeCard">
-              {place.url && (
-                <img src={place.url} alt={place.title} className="placeImage" />
+              {place.imgURL && (
+                <img
+                  src={place.imgURL}
+                  alt={place.title}
+                  className="placeImage"
+                />
               )}
               <div>
                 <h3 className="placeTitle">{place.title}</h3>
@@ -70,13 +88,13 @@ export default function User() {
                 <div className="placeActions">
                   <button
                     className="editButton"
-                    onClick={() => editPlace(place.id)}
+                    onClick={() => editPlace(place._id)}
                   >
                     Засах
                   </button>
                   <button
                     className="deleteButton"
-                    onClick={() => deletePlace(index)}
+                    onClick={() => deletePlace(place._id)}
                   >
                     Устгах
                   </button>

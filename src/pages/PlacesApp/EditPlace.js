@@ -12,41 +12,87 @@ export default function EditPlace() {
   const { loggedInUser } = useContext(LoggedInUserContext);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const places = localStorage.getItem("places");
-    if (places) {
-      const parsedPlaces = JSON.parse(places);
-      const placeToEdit = parsedPlaces.find((place) => place.id === pid);
+  const getPlaceById = async () => {
+    const res = await fetch(`http://localhost:80/api/places/${pid}`);
 
-      if (placeToEdit) {
-        setPlaceTitle(placeToEdit.title);
-        setPlaceDescription(placeToEdit.description);
-        setPlaceHayg(placeToEdit.hayg);
-        setPlaceLocation(placeToEdit.location);
-        setPlaceUrl(placeToEdit.url);
-      }
+    const parsedRes = await res.json();
+
+    console.log(":::", parsedRes);
+    if (parsedRes.status === "success") {
+      setPlaceTitle(parsedRes.places.title);
+      setPlaceDescription(parsedRes.places.description);
+      setPlaceHayg(parsedRes.places.hayg);
+      setPlaceLocation(parsedRes.places.location);
+      setPlaceUrl(parsedRes.places.imgURL);
+    } else {
+      alert(
+        "Газрын мэдээллийг засах явцыг эхлүүлэхэд алдаа гарлаа! Та дахин оролдоно уу"
+      );
     }
+  };
+
+  useEffect(() => {
+    // const places = localStorage.getItem("places");
+    // if (places) {
+    //   const parsedPlaces = JSON.parse(places);
+    //   const placeToEdit = parsedPlaces.find((place) => place.id === pid);
+    //   if (placeToEdit) {
+    //     setPlaceTitle(placeToEdit.title);
+    //     setPlaceDescription(placeToEdit.description);
+    //     setPlaceHayg(placeToEdit.hayg);
+    //     setPlaceLocation(placeToEdit.location);
+    //     setPlaceUrl(placeToEdit.url);
+    //   }
+    // }
+
+    getPlaceById();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pid]);
 
-  const saveChanges = () => {
-    const places = localStorage.getItem("places");
-    if (places && loggedInUser) {
-      const parsedPlaces = JSON.parse(places);
+  const saveChanges = async () => {
+    // const places = localStorage.getItem("places");
+    if (loggedInUser) {
+      // const parsedPlaces = JSON.parse(places);
 
-      const updatedPlaces = parsedPlaces.map((place) =>
-        place.id === pid
-          ? {
-              ...place,
-              title: placeTitle,
-              description: placeDescription,
-              hayg: placeHayg,
-              location: placeLocation,
-              url: placeUrl,
-            }
-          : place
-      );
+      // const updatedPlaces = parsedPlaces.map((place) =>
+      //   place.id === pid
+      //     ? {
+      //         ...place,
+      //         title: placeTitle,
+      //         description: placeDescription,
+      //         hayg: placeHayg,
+      //         location: placeLocation,
+      //         url: placeUrl,
+      //       }
+      //     : place
+      // );
 
-      localStorage.setItem("places", JSON.stringify(updatedPlaces));
+      // localStorage.setItem("places", JSON.stringify(updatedPlaces));
+
+      const res = await fetch(`http://localhost:80/api/places/${pid}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          placeId: pid,
+          userId: loggedInUser._id,
+          title: placeTitle,
+          description: placeDescription,
+          hayg: placeHayg,
+          location: placeLocation,
+          imgURL: placeUrl,
+        }),
+      });
+
+      const parsedRes = await res.json();
+      console.log(parsedRes);
+      if (parsedRes.status === "success") {
+        alert("Газар амжилттай шинэчлэгдлээ");
+      } else {
+        alert("Газар шинэчлэхэд алдаа гарлаа");
+      }
+
       navigate(-1);
     } else {
       alert("Өөрчлөлтийг хадгалахад алдаа гарлаа");

@@ -7,7 +7,7 @@ export default function UserList({ users, navigator }) {
         <div
           key={user.email}
           className="user"
-          onClick={() => navigator(`/placesapp/${user.id}/places`)}
+          onClick={() => navigator(`/placesapp/${user._id}/places`)}
         >
           <img src={user.img} width={50} height={50} alt="user-profile-img" />
           <div className="userAttributesContainer">

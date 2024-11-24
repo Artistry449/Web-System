@@ -32,9 +32,14 @@ export default function App() {
     localStorage.removeItem("loggedInUser");
   };
 
-  /***
-   * 
-   *       <ul>
+  return (
+    <LoggedInUserContext.Provider
+      value={{ loggedInUser, updateLoggedInUser, logoutUser }}
+    >
+      <BrowserRouter>
+        <nav className="navbar">
+          <h1>ITM301 Лабораторын ажлууд</h1>{" "}
+          <ul>
             <li>
               <Link to="/">Үндсэн</Link>
             </li>
@@ -48,19 +53,13 @@ export default function App() {
               <Link to="/placesapp">PlacesApp</Link>
             </li>
           </ul>
-   */
-  return (
-    <LoggedInUserContext.Provider
-      value={{ loggedInUser, updateLoggedInUser, logoutUser }}
-    >
-      <BrowserRouter>
-        <nav className="navbar">{/* <h1>ITM301 Лабораторын ажлууд</h1> */}</nav>
+        </nav>
         <Routes>
-          {/* <Route path="/" element={<div>Үндсэн дэлгэц</div>} /> */}
-          {/* <Route path="/fruitshop" element={<FruitShop />} /> */}
+          <Route path="/" element={<div>Үндсэн дэлгэц</div>} />
+          <Route path="/fruitshop" element={<FruitShop />} />
 
-          {/* <Route path="/countries" element={<Countries />} /> */}
-          {/* <Route path="/countries/detail/:cca2" element={<SelectedCountry />} /> */}
+          <Route path="/countries" element={<Countries />} />
+          <Route path="/countries/detail/:cca2" element={<SelectedCountry />} />
 
           <Route path="/placesapp" element={<PlacesApp />} />
           <Route path="/placesapp/authenticate" element={<Authenticate />} />

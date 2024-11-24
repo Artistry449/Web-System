@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import "./style.css";
 import LoggedInUserContext from "../../Context/LoggedInUser";
 import { useNavigate } from "react-router-dom";
-import { v4 as uuid } from "uuid";
 
 export default function AddPlace() {
   const [placeTitle, setPlaceTitle] = useState("");
@@ -15,7 +14,7 @@ export default function AddPlace() {
 
   const navigate = useNavigate();
 
-  const saveToStorage = () => {
+  const saveToStorage = async () => {
     if (
       placeTitle &&
       placeDescription &&
@@ -25,35 +24,51 @@ export default function AddPlace() {
       loggedInUser
     ) {
       const newPlace = {
-        id: uuid(),
+        userId: loggedInUser._id,
         title: placeTitle,
-        userId: loggedInUser.id,
         description: placeDescription,
         hayg: placeHayg,
         location: placeLocation,
-        url: placeUrl,
+        imgURL: placeUrl,
       };
 
-      const previousPlaces = localStorage.getItem("places");
-
-      let parsedPreviousPlaces = [];
-      if (previousPlaces) {
-        try {
-          parsedPreviousPlaces = JSON.parse(previousPlaces);
-        } catch (e) {
-          console.error("Localstorage error:", e);
-        }
-      }
-
-      if (!Array.isArray(parsedPreviousPlaces)) {
-        parsedPreviousPlaces = [];
-      }
-
-      parsedPreviousPlaces.push(newPlace);
-
-      localStorage.setItem("places", JSON.stringify(parsedPreviousPlaces));
-
+      const res = await fetch(`http://localhost:80/api/places`, {
+        method: "POST",
+        body: JSON.stringify(newPlace),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const parsedRes = await res.json();
+      console.log(parsedRes);
       navigate(-1);
+
+      // if (res.status === "success") {
+      //   alert("Шинэ газар амжилттай нэмэгдлээ!");
+      // } else {
+      //   alert("Шинэ газар нэмэхэд алдаа гарлаа. Та дахин оролдоно уу");
+      // }
+      // navigate(-1);
+      // const previousPlaces = localStorage.getItem("places");
+
+      // let parsedPreviousPlaces = [];
+      // if (previousPlaces) {
+      //   try {
+      //     parsedPreviousPlaces = JSON.parse(previousPlaces);
+      //   } catch (e) {
+      //     console.error("Localstorage error:", e);
+      //   }
+      // }
+
+      // if (!Array.isArray(parsedPreviousPlaces)) {
+      //   parsedPreviousPlaces = [];
+      // }
+
+      // parsedPreviousPlaces.push(newPlace);
+
+      // localStorage.setItem("places", JSON.stringify(parsedPreviousPlaces));
+
+      // const res = await
     } else {
       alert("Та талбаруудыг бөглөнө үү");
     }

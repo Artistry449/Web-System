@@ -17,12 +17,14 @@ export default function PlacesApp() {
       const parsedFetchedUsers = await fetchedUsers.json();
       console.log(parsedFetchedUsers);
       if (parsedFetchedUsers && parsedFetchedUsers.status === "success") {
-        setUsers(parsedFetchedUsers.users);
+        const receivedUsers = parsedFetchedUsers.users;
+        console.log("hereglegchid: ", parsedFetchedUsers.users);
+        setUsers(receivedUsers);
       }
     };
 
     getUsers();
-  }, []);
+  }, [loggedInUser]);
 
   return (
     <div className="index">

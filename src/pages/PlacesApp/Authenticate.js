@@ -127,6 +127,7 @@ export default function Authenticate() {
           //   "loggedInUser",
           //   JSON.stringify(parsedLoginTriedUser.user)
           // );
+          updateLoggedInUser(parsedLoginTriedUser.user);
           setIsSuccessfullySignedupAlertOpen(false);
           setIsSuccessfullyLoggedInAlertOpen(true);
 
